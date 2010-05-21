@@ -1,16 +1,68 @@
 = flvvr
 
-Description goes here.
+Flvvr == FLVver == FLV Getter. A suite of command-line utilities to aid in the retrieval of TV shows from the interwebs.
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+Given a TV show name, season, and episode, currently retrieves the best direct {MegaVideo}[http://www.megavideo.com] streaming URL from {yidio.com}[http://www.yidio.com] as well as, where available, the URL to download a higher-quality AVI version of the same episode from {MegaUpload}[http://www.megaupload.com].
+
+
+
+
+== Usage
+
+=== Preliminary Research
+
+1. Go to {Yidio}[http://www.yidio.com] and search for your favorite TV show. Open the show overview page or any particular episode.
+1. Look at the URL. It will be formatted like yidio.com/show/SHOW_NAME/other_stuff. Remember the show name (you can replace - with spaces).
+  e.g. Big Bang Theory
+  Show overview URL: http://www.yidio.com/show/the-big-bang-theory
+  Episode URL: http://www.yidio.com/show/the-big-bang-theory/season-1/episode-1/links.html
+  
+  Either way, the show name is "the big bang theory"
+
+=== Grabbin' FLVs
+
+First, cd to the <em>lib</em> directory.
+
+To print out usage:
+
+  ruby flvvr.rb
+
+To download a show:
+
+  # Format: ruby flvvr.rb "show name from yidio.com" SEASON_NUMBER EPISODE_NUMBER
+  # Example: Get the second episode of the first season of "The Big Bang Theory"
+  ruby flvvr.rb "the big bang theory" 1 2
+  
+This will print some diagnostic information to the screen (e.g. 108 links found, 4 at www.megavideo.com), automatically copy the best streaming URL into your clipboard, and open the higher quality AVI version's download page in your browser.
+
+To stream the episode, paste the URL into your now-open browser and you're good to go (or install jDownloader, which will autodetect the episode when the URL is copied to your clipboard).  Note that if you choose to download the FLV file via e.g. jDownloader, you can start playing the file in VLC while it's still downloading.
+
+To download the episode enter the captcha in your browser, then press enter in your command console.  Ruby will send you a growl notification in 45 seconds when you should be able to download the episode from your browser.
+
+Sometimes files exist on megavideo (streaming) but not megaupload (downloadable).  If the browser opens to the megavideo.com URL, you can quit the script with a control+c and tell it to try another URL from yidio by appending a new argument:
+
+  # Format: ruby flvvr.rb "show name from yidio.com" SEASON_NUMBER EPISODE_NUMBER [OPTIONAL_LINK_NUMBER]
+  # Example: Try the third link returned on yidio.
+  ruby flvvr.rb "the big bang theory" 1 2 3
+
+
+
+
+
+
+== Installation
+
+While in development, just clone this and work from the lib/ directory.  Once this is completed, installation will be a simple
+
+  gem install flvvr
+  
+and you'll be able to use the command from anywhere.
+
+Note flvvr is only supported on OS X, although this is mostly due to peripheral functionality (growl, pbcopy) so porting to other platforms would be easy if someone were so inclined.
+
+
+
+
 
 == Copyright
 
