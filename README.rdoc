@@ -35,9 +35,9 @@ To download a show:
   
 This will print some diagnostic information to the screen (e.g. 108 links found, 4 at www.megavideo.com), automatically copy the best streaming URL into your clipboard, and open the higher quality AVI version's download page in your browser.
 
-To stream the episode, paste the URL into your now-open browser and you're good to go (or install jDownloader, which will autodetect the episode when the URL is copied to your clipboard).  Note that if you choose to download the FLV file via e.g. jDownloader, you can start playing the file in VLC while it's still downloading.
+To stream the episode, paste the URL into your now-open browser and you're good to go (or install jDownloader, which will autodetect the episode when the URL is copied to your clipboard).
 
-To download the episode enter the captcha in your browser, then press enter in your command console.  Ruby will send you a growl notification in 45 seconds when you should be able to download the episode from your browser.
+To download the episode enter the captcha in your browser, then press enter in your command console.  Ruby will send you a growl notification in 45 seconds when you should be able to download the episode from your browser.  Note that if you download either the FLV or AVI file, you can almost always watch it while it's still downloading with {VLC}[http://www.videolan.org/vlc/] (although AVI files seem to make it shut down expectedly occasionally).
 
 Sometimes files exist on megavideo (streaming) but not megaupload (downloadable).  If the browser opens to the megavideo.com URL, you can quit the script with a control+c and tell it to try another URL from yidio by appending a new argument:
 
@@ -45,7 +45,7 @@ Sometimes files exist on megavideo (streaming) but not megaupload (downloadable)
   # Example: Try the third link returned on yidio.
   ruby flvvr.rb "the big bang theory" 1 2 3
 
-
+The script will try to autodetect redirects and skip those download links, however, so this should happen very infrequently.
 
 
 

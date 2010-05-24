@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 require 'nokogiri'
 require 'open-uri'
+require 'net/http'
+require 'uri'
 
 
 # Quick script to help with watching shows online.
@@ -126,10 +128,38 @@ module Flvvr
         link_collection.at( PREFERRED_SITE ).map(&:source_url)
       end
 
-      def download_link(n = 1)
+      def streaming_link(n = 1)
         n = n.to_i.zero? ? 0 : n.to_i - 1
         link = link_collection.at( PREFERRED_SITE )[n]
         link ? link.source_url : nil
+      end
+      
+      def download_link(n = 1)
+        n_to_skip = n - 1
+        n_found = 0
+        link_collection.at( PREFERRED_SITE ).each do |l|
+          url = l.source_url
+          
+          # Try URL at megaupload
+          dl_url = url.gsub('video.com', 'upload.com')
+
+          # Allow skipping to nth download link
+          if link_is_direct(dl_url)
+            n_found += 1
+            return dl_url if n_found > n_to_skip 
+          end
+        end
+        nil
+      end
+      
+      protected
+      
+      def link_is_direct(link)
+        uri = URI(link)
+        h = Net::HTTP.new(uri.host, uri.port)
+        path = uri.query ? "#{uri.path}?#{uri.query}" : uri.path
+        code = h.head(path).code.to_i
+        200 == code
       end
     end
   end
